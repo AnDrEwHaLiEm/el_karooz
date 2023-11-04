@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1088748112784",
+    "project_id": "el-karooz",
+    "storage_bucket": "el-karooz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088748112784:android:78d99800c1983f8b2ec115",
+        "android_client_info": {
+          "package_name": "com.el_karooz.el_karooz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088748112784-qlvg94d36lt9o0v17b0keiiu0njm0mjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS7U80OrdNVmCmqoZfdEPVI9Izlvak16g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088748112784-qlvg94d36lt9o0v17b0keiiu0njm0mjp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1088748112784-5fp9clm04jujs0p74tn4ob02a3kso8tn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.elkarooz.elKarooz.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
