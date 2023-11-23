@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,83 +18,103 @@ class BaseService {
 
   Future<http.Response> postRequest(
       String url, Map<String, dynamic> body) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String? tokenString = pref.getString('token');
-    tokenString ??= '{"token": ""}';
-    Map<String, dynamic> convertToken = json.decode(tokenString);
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      String? tokenString = pref.getString('token');
+      tokenString ??= '{"token": ""}';
+      Map<String, dynamic> convertToken = json.decode(tokenString);
 
-    String token = convertToken['token'] ?? "";
-  
-    String jsonBody = jsonEncode(body);
+      String token = convertToken['token'] ?? "";
 
-    final response = await http.post(
-      Uri.parse('$baseUrl/$url'),
-      body: jsonBody,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': '123=$token'
-      },
-    );
+      String jsonBody = jsonEncode(body);
 
-    return response;
+      final response = await http.post(
+        Uri.parse('$baseUrl/$url'),
+        body: jsonBody,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': '123=$token'
+        },
+      );
+
+      return response;
+    } catch (e) {
+      print(e);
+      return http.Response(e.toString(), 500);
+    }
   }
 
   Future<http.Response> getRequest(
       String url, Map<String, dynamic> params) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String? tokenString = pref.getString('token');
-    Map<String, dynamic> convertToken = json.decode(tokenString!);
-    String token = convertToken['token'];
-    final response = await http.get(
-      Uri.parse('$baseUrl/$url?${Uri(queryParameters: params)}'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': '123=$token'
-      },
-    );
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      String? tokenString = pref.getString('token');
+      Map<String, dynamic> convertToken = json.decode(tokenString!);
+      String token = convertToken['token'];
+      final response = await http.get(
+        Uri.parse('$baseUrl/$url?${Uri(queryParameters: params)}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': '123=$token'
+        },
+      );
 
-    return response;
+      return response;
+    } catch (e) {
+      print(e);
+      return http.Response(e.toString(), 500);
+    }
   }
 
   Future<http.Response> putRequest(
       String url, Map<String, dynamic> body) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String? tokenString = pref.getString('token');
-    Map<String, dynamic> convertToken = json.decode(tokenString!);
-    String token = convertToken['token'];
-    String jsonBody = jsonEncode(body);
-    final response = await http.put(
-      Uri.parse('$baseUrl/$url'),
-      body: jsonBody,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': '123=$token'
-      },
-    );
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      String? tokenString = pref.getString('token');
+      Map<String, dynamic> convertToken = json.decode(tokenString!);
+      String token = convertToken['token'];
+      String jsonBody = jsonEncode(body);
+      final response = await http.put(
+        Uri.parse('$baseUrl/$url'),
+        body: jsonBody,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': '123=$token'
+        },
+      );
 
-    return response;
+      return response;
+    } catch (e) {
+      print(e);
+      return http.Response(e.toString(), 500);
+    }
   }
 
   Future<http.Response> deleteRequest(
       String url, Map<String, dynamic> body) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String? tokenString = pref.getString('token');
-    Map<String, dynamic> convertToken = json.decode(tokenString!);
-    String token = convertToken['token'];
-    String jsonBody = jsonEncode(body);
-    final response = await http.delete(
-      Uri.parse('$baseUrl/$url'),
-      body: jsonBody,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': '123=$token'
-      },
-    );
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      String? tokenString = pref.getString('token');
+      Map<String, dynamic> convertToken = json.decode(tokenString!);
+      String token = convertToken['token'];
+      String jsonBody = jsonEncode(body);
+      final response = await http.delete(
+        Uri.parse('$baseUrl/$url'),
+        body: jsonBody,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': '123=$token'
+        },
+      );
 
-    return response;
+      return response;
+    } catch (e) {
+      print(e);
+      return http.Response(e.toString(), 500);
+    }
   }
 }

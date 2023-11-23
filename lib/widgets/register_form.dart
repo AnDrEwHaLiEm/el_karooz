@@ -50,7 +50,6 @@ class _RegisterFormState extends State<RegisterForm> {
             decoration: const InputDecoration(
               labelText: 'ادخل اسم المستخدم',
               hintText: 'ex: اندرو حليم',
-              icon: Icon(Icons.person),
             ),
             controller: fullName,
           ),
@@ -59,7 +58,6 @@ class _RegisterFormState extends State<RegisterForm> {
             decoration: const InputDecoration(
               labelText: 'ادخل البريد الالكترونى',
               hintText: 'ex: andrew@gmail.com',
-              icon: Icon(Icons.email),
             ),
             controller: email,
           ),
@@ -68,40 +66,60 @@ class _RegisterFormState extends State<RegisterForm> {
             decoration: const InputDecoration(
               labelText: 'ادخل رقم الهاتف',
               hintText: 'ex: 01000000000',
-              icon: Icon(Icons.phone),
             ),
             controller: phoneNumber,
           ),
-          TextField(
-            controller: birthday,
-            decoration: const InputDecoration(
-              labelText: 'ادخل تاريخ الميلاد',
-              hintText: 'yyyy-MM-dd',
-              icon: Icon(Icons.calendar_today),
-            ),
-            readOnly: true,
-            onTap: () async {
-              DateTime? pickedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1940),
-                lastDate: DateTime.now(),
-              );
-              if (pickedDate != null) {
-                String formattedDate =
-                    DateFormat('yyyy-MM-dd').format(pickedDate);
-                setState(() {
-                  birthday.text = formattedDate;
-                });
-              }
-            },
+          const SizedBox(height: 16),
+          Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              TextField(
+                  controller: birthday,
+                  decoration: const InputDecoration(
+                    labelText: 'ادخل تاريخ الميلاد',
+                    hintText: 'yyyy-MM-dd',
+                  ),
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1940),
+                      lastDate: DateTime.now(),
+                    );
+                    if (pickedDate != null) {
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      setState(() {
+                        birthday.text = formattedDate;
+                      });
+                    }
+                  }),
+              IconButton(
+                icon: const Icon(Icons.calendar_today),
+                onPressed: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1940),
+                      lastDate: DateTime.now(),
+                    );
+                    if (pickedDate != null) {
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      setState(() {
+                        birthday.text = formattedDate;
+                      });
+                    }
+                  }
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'ادخل المؤهل الدراسى',
               hintText: 'ex: طالب جامعى',
-              icon: Icon(Icons.school),
             ),
             controller: education,
           ),
@@ -118,9 +136,6 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             child: DropdownButton<String>(
               value: gender,
-              icon: gender == "Male"
-                  ? const Icon(Icons.man_outlined)
-                  : const Icon(Icons.woman_2_rounded),
               onChanged: (String? value) {
                 setState(() {
                   gender = value;
@@ -146,12 +161,13 @@ class _RegisterFormState extends State<RegisterForm> {
           Stack(
             alignment: Alignment.centerLeft,
             children: [
+              IconButton(
+                icon: const Icon(Icons.lock),
+                onPressed: () {},
+              ),
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'ادخل كلمه المرور',
-                  hintText: 'ex: 123456',
-                  icon: Icon(Icons.lock),
-                ),
+                    labelText: 'ادخل كلمة المرور', hintText: 'ex: 123456'),
                 obscureText: !showPassword,
                 controller: password,
               ),

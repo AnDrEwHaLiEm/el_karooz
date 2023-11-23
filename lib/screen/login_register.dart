@@ -5,6 +5,7 @@ import 'package:el_karooz/model/user_interface.dart';
 import 'package:el_karooz/service/user_service.dart';
 import 'package:el_karooz/widgets/login_form.dart';
 import 'package:el_karooz/widgets/register_form.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class LoginRegisterPage extends StatefulWidget {
@@ -25,12 +26,9 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
   }
 
   void onLoginSubmit(String email, String password) async {
-    //final fcmToken = await FirebaseMessaging.instance.getToken();
-    const String fcmToken =
-        "eIonbUh5SNSwM2Dlk6P7ZZ:APA91bFkOk6oopuA_dBlqwyQfaT3x2gvSQhxoA4AvZAKWxNBotAU0JFvgMQY_xd3tuZcZLhUVAGOMzOMc29wTU1KkSsl2NhJ-PScXJoFo9GRGnFCz2P4HjPGepBQkm-qUeEF18lFv_3J";
+    final fcmToken = await FirebaseMessaging.instance.getToken();
     final response =
-        await widget.userService.loginUser(email, password, fcmToken);
-
+     await widget.userService.loginUser(email, password, fcmToken.toString());
     if (response) {
       navigateToHome();
     } else {
@@ -83,17 +81,16 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
   }
 
   void onRegisterSubmit(UserModel user) async {
-    //final fcmToken = await FirebaseMessaging.instance.getToken();
-    const String fcmToken =
-        "eIonbUh5SNSwM2Dlk6P7ZZ:APA91bFkOk6oopuA_dBlqwyQfaT3x2gvSQhxoA4AvZAKWxNBotAU0JFvgMQY_xd3tuZcZLhUVAGOMzOMc29wTU1KkSsl2NhJ-PScXJoFo9GRGnFCz2P4HjPGepBQkm-qUeEF18lFv_3J";
-    final response = await widget.userService.registerUser(user, fcmToken);
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    final response =
+        await widget.userService.registerUser(user, fcmToken.toString());
     if (response['status']) {
       const String createUserSuccessMessage =
           'تم تسجيل المستخدم بنجاح فى انتظار قبولك من قبل المسئول';
       showSuccessMessage(createUserSuccessMessage);
     } else {
       String createUserErrorMessage = response['message'];
-          showErrorMessage(createUserErrorMessage);
+      showErrorMessage(createUserErrorMessage);
     }
   }
 

@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'package:el_karooz/screen/home_page.dart';
 import 'package:el_karooz/screen/login_register.dart';
 import 'package:el_karooz/service/user_service.dart';
@@ -10,13 +11,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   UserService userService = UserService();
-  // ignore: avoid_print
-  print("================1====================");
   final isUserLoggedIn = await userService.userIsLoggedIn();
-  // ignore: avoid_print
-  print(isUserLoggedIn);
-  // ignore: avoid_print
-  print("================1====================");
   runApp(MyApp(isUserLoggedIn: isUserLoggedIn));
 }
 
@@ -56,7 +51,10 @@ class MyApp extends StatelessWidget {
         child: isUserLoggedIn ? const HomePage() : LoginRegisterPage(),
       ),
       routes: <String, WidgetBuilder>{
-        'login': (BuildContext context) => LoginRegisterPage(),
+        'login': (BuildContext context) => Directionality(
+            textDirection: TextDirection.rtl,
+            key: UniqueKey(),
+            child: LoginRegisterPage()),
         'home': (BuildContext context) => const HomePage(),
       },
     );

@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 class LoginForm extends StatefulWidget {
   const LoginForm(
       {super.key, required this.onLoginSubmit, required this.toggleForm});
-  final Function(String email, String password)
-      onLoginSubmit;
+  final Function(String email, String password) onLoginSubmit;
   final Function toggleForm;
 
   @override
@@ -15,6 +14,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool showPassword = false;
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -38,12 +38,28 @@ class _LoginFormState extends State<LoginForm> {
             controller: emailController,
           ),
           const SizedBox(height: 16),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'ادخل كلمه المرور',
-            ),
-            obscureText: true,
-            controller: passwordController,
+          Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'ادخل كلمه المرور',
+                ),
+                obscureText: !showPassword,
+                controller: passwordController,
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.remove_red_eye,
+                  color: showPassword ? Colors.blue : Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    showPassword = !showPassword;
+                  });
+                },
+              ),
+            ],
           ),
           const SizedBox(height: 24),
           OriginalButton(
@@ -51,7 +67,8 @@ class _LoginFormState extends State<LoginForm> {
             textColor: Colors.white,
             bgColor: const Color(0xFF003554),
             onPressed: () {
-              widget.onLoginSubmit(emailController.text, passwordController.text);
+              widget.onLoginSubmit(
+                  emailController.text, passwordController.text);
             },
           ),
           const SizedBox(height: 5),
